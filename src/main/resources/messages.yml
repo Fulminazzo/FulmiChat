@@ -1,0 +1,10 @@
+######################################################
+#               FulmiChat messages.yml               #
+######################################################
+
+prefix: "&4FulmiChat &8>> &f"
+
+console-cannot-execute: "&cConsole cannot execute this command!"
+not-enough-arguments: "&cYou did not provide enough arguments!"
+player-not-found: "&cPlayer &4%player% &cnot found!"
+gui-error: "&cThere was an error with the GUI! Contact an admin or check on console for more info."

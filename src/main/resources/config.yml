@@ -1,0 +1,129 @@
+####################################################
+#               FulmiChat config.yml               #
+####################################################
+
+# A GUI shown to those who have permission fulmichat.mod
+moderation-gui:
+  title: "&4%target% &cGUI"
+  check: "&c[✓]"
+  items:
+    # The slot of the item.
+    0:
+      material: DIAMOND_AXE
+      amount: 1
+      display-name: "&cBan &4%target%"
+      lore: []
+      enchantments: {}
+      command: "ban %target% The ban hammer has spoken!"
+      action: "close"
+    1:
+      material: DIAMOND_SHOVEL
+      amount: 1
+      display-name: "&cMute &4%target%"
+      lore: []
+      enchantments: {}
+      command: "mute %target% Muted by %issuer%"
+      action: "close"
+    8:
+      material: BARRIER
+      amount: 1
+      display-name: "&cClose GUI"
+      lore: []
+      enchantments: {}
+      action: "close"
+
+# The placeholder to be used in chat in order
+# to display your current item.
+item-placeholder:
+  - "[item]"
+  - "[i]"
+item-placeholder-parsed: "&8[%item%&8]"
+
+# The text to be used when mentioning another player.
+player-mention: "%player-name%"
+player-mention-parsed: "&b@%player-name%"
+
+# The sound to be used when mentioning a player.
+# For a full list checkout https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Sound.html.
+player-mention-sound: ENTITY_EXPERIENCE_ORB_PICKUP
+
+# A list of emojis to be replaced in chat.
+# If no group is specified, it will fall back to
+# default group.
+emojis:
+  default:
+    heart:
+      emoticon: '<3'
+      emoji: '&c❤'
+    star:
+      emoticon: ':star:'
+      emoji: '&6✮'
+    yes:
+      emoticon: ':yes:'
+      emoji: '&a✔'
+    no:
+      emoticon: ':no:'
+      emoji: '&c✖'
+    java:
+      emoticon: ':java:'
+      emoji: '&b☕'
+    arrow:
+      emoticon: ':arrow:'
+      emoji: '&e➜'
+    shrug:
+      emoticon: ':shrug:'
+      emoji: '&e¯\\_(ツ)_/¯'
+    tableflip:
+      emoticon: ':tableflip:'
+      emoji: '&c(╯°□°）╯&r&f︵&r&7 ┻━┻'
+    wave:
+      emoticon: 'o/'
+      emoji: '&e( ﾟ◡ﾟ)/'
+    gimme:
+      emoticon: ':gimme:'
+      emoji: '&c༼つ◕_◕༽つ'
+    pvp:
+      emoticon: ':pvp:'
+      emoji: '&c⚔'
+    peace:
+      emoticon: ':peace:'
+      emoji: '&a✌'
+    oof:
+      emoticon: ':oof:'
+      emoji: '&c&lOOF'
+    snow:
+      emoticon: ':snow:'
+      emoji: '&b☃'
+    yey:
+      emoticon: ':yey:'
+      emoji: '&eヽ (◕◡◕) ﾉ'
+    hey:
+      emoticon: 'h/'
+      emoji: '&eヽ(^◇^*)/'
+    cat:
+      emoticon: ':cat:'
+      emoji: '&e= &r&b＾● ⋏ ●＾&r&e ='
+    dog:
+      emoticon: ':dog:'
+      emoji: '&6(ᵔᴥᵔ)'
+    dj:
+      emoticon: ':dj:'
+      emoji: '&9ヽ&r&5(&r&d⌐&r&c■&r&6_&r&e■&r&b)&r&3ノ&r&9♬'
+    cute:
+      emoticon: ':cute:'
+      emoji: '&e(&r&a✿&r&e◠‿◠)'
+  facepalm:
+    emoticon: ':facepalm:'
+    emoji: '&6(&e－‸ლ&6)'
+  skull:
+    emoticon: ':skull:'
+    emoji: '&7☠'
+  happy:
+    emoticon: ':)'
+    emoji: '☺'
+  sad:
+    emoticon: ':('
+    emoji: '☹'
+  music:
+    emoticon: ':music:'
+    emoji: ['&c♫', '&9♬', '&3♪', '&5♩', '&a♭', '&e♪']
