@@ -24,7 +24,7 @@ public class Emoji {
             this.emoticons = new ArrayList<>();
             for (Object o : (List<?>) emoticons) this.emoticons.add(String.valueOf(o));
         } else throw new UnrecognizedEmoji(LoggingMessage.INVALID_EMOTICON_TYPE,
-                "%name%", name, "%type%", emoticons.getClass().getSimpleName());
+                "%name%", name, "%type%", emoticons == null ? "null" : emoticons.getClass().getSimpleName());
 
         Object emojis = emojiSection.get("emoji");
         if (emojis instanceof String) this.emojis = Collections.singletonList(emojis.toString());
@@ -32,7 +32,7 @@ public class Emoji {
             this.emojis = new ArrayList<>();
             for (Object o : (List<?>) emojis) this.emojis.add(String.valueOf(o));
         } else throw new UnrecognizedEmoji(LoggingMessage.INVALID_EMOJI_TYPE,
-                "%name%", name, "%type%", emojis.getClass().getSimpleName());
+                "%name%", name, "%type%", emojis == null ? "null" : emojis.getClass().getSimpleName());
     }
 
     public String parseMessage(String message) {

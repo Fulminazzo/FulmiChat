@@ -8,3 +8,6 @@ console-cannot-execute: "&cConsole cannot execute this command!"
 not-enough-arguments: "&cYou did not provide enough arguments!"
 player-not-found: "&cPlayer &4%player% &cnot found!"
 gui-error: "&cThere was an error with the GUI! Contact an admin or check on console for more info."
+
+click-to-show-inventory: "&bClick to show %player%&b's &fInventory&b!"
+click-to-show-ender: "&bClick to show %player%&b's &5EnderChest&b!"

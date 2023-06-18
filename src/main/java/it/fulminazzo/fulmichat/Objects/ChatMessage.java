@@ -33,7 +33,9 @@ public class ChatMessage {
 
     public BaseComponent[] getModMessage() {
         if (message == null || check == null) return getUserMessage();
-        else return new ComponentBuilder(message).append(" ").append(check).create();
+        else return new ComponentBuilder(message)
+                .append(" ", ComponentBuilder.FormatRetention.NONE)
+                .append(check, ComponentBuilder.FormatRetention.NONE).create();
     }
 
     public void setMessage(String message) {

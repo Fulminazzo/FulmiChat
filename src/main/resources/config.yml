@@ -39,6 +39,43 @@ item-placeholder:
   - "[i]"
 item-placeholder-parsed: "&8[%item%&8]"
 
+# The placeholder to be used in chat in order
+# to display your current inventory.
+inventory-placeholder:
+  - "[inventory]"
+  - "[inv]"
+inventory-placeholder-parsed: "&8[%player%&f's Inventory&8]"
+
+# The placeholder to be used in chat in order
+# to display your current enderchest.
+ender-placeholder:
+  - "[ender]"
+  - "[end]"
+  - "[e]"
+ender-placeholder-parsed: "&8[%player%'s &5EnderChest&8]"
+
+# The placeholder to be used in chat in order
+# to display your current ping.
+ping-placeholder:
+  - "[ping]"
+  - "[p]"
+ping-placeholder-parsed: "&8[&b%ping%ms&8]"
+
+# This list of commands will be checked for any of the
+# chat elements (emojis, placeholders and so on).
+commands:
+  - msg
+  - message
+  - tell
+  - reply
+  - r
+  - whisper
+  - t
+  - w
+  - m
+  - bc
+  - broadcast
+
 # The text to be used when mentioning another player.
 player-mention: "%player-name%"
 player-mention-parsed: "&b@%player-name%"

@@ -8,7 +8,9 @@ public enum Message {
     CONSOLE_CANNOT_EXECUTE("console-cannot-execute"),
     NOT_ENOUGH_ARGUMENTS("not-enough-arguments"),
     PLAYER_NOT_FOUND("player-not-found"),
-    GUI_ERROR("gui-error");
+    GUI_ERROR("gui-error"),
+    SHOW_INVENTORY("click-to-show-inventory"),
+    SHOW_ENDER("click-to-show-ender");
 
     private final String path;
 

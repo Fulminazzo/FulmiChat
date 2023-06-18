@@ -9,9 +9,15 @@ description: FulmiChat is a plugin that adds mentions, emojis and items in chat.
 commands:
   moderate:
     description: A command to moderate a player.
-    permission: fulmichat.mod
+    #permission: fulmichat.mod
     aliases: [mod]
   emoji:
     description: A command to display all available emojis
-    permission: fulmichat.emoji
+    #permission: fulmichat.emoji
     aliases: [emojis]
+  showinventory:
+    description: A command to display the inventory of a player.
+    #permission: fulmichat.inventory
+  showenderchest:
+    description: A command to display the enderchest of a player.
+    #permission: fulmichat.ender

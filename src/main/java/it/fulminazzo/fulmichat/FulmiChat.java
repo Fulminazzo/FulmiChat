@@ -8,37 +8,58 @@ import it.angrybear.Utils.PluginsUtil;
 import it.angrybear.Utils.StringUtils;
 import it.fulminazzo.fulmichat.Commands.EmojiCommand;
 import it.fulminazzo.fulmichat.Commands.ModCommand;
+import it.fulminazzo.fulmichat.Commands.ShowEnderChest;
+import it.fulminazzo.fulmichat.Commands.ShowInventory;
+import it.fulminazzo.fulmichat.Enums.Permission;
 import it.fulminazzo.fulmichat.Listeners.PlayerListener;
 import it.fulminazzo.fulmichat.Managers.EmojiGroupsManager;
+import it.fulminazzo.fulmichat.Managers.GUIManager;
 import it.fulminazzo.graphics.Exceptions.InvalidSizeException;
 import it.fulminazzo.graphics.Objects.GUI;
 import it.fulminazzo.graphics.Objects.Items.AbstractClasses.GUIElement;
 import it.fulminazzo.graphics.Objects.Items.CommandItem;
 import it.fulminazzo.graphics.Objects.Items.Item;
 import org.bukkit.Bukkit;
+import org.bukkit.command.PluginCommand;
+import org.bukkit.command.TabExecutor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public final class FulmiChat extends SimpleBearPlugin {
     private static FulmiChat plugin;
     private EmojiGroupsManager emojiGroupsManager;
+    private GUIManager guiManager;
 
     @Override
     public void onEnable() {
         plugin = this;
         super.onEnable();
-        getCommand("moderate").setExecutor(new ModCommand(this));
-        getCommand("emoji").setExecutor(new EmojiCommand(this));
+        setExecutor("moderate", new ModCommand(this));
+        setExecutor("emoji", new EmojiCommand(this));
+        setExecutor("showinventory", new ShowInventory(this));
+        setExecutor("showenderchest", new ShowEnderChest(this));
+    }
+
+    private void setExecutor(String commandName, TabExecutor tabExecutor) {
+        PluginCommand command = getCommand(commandName);
+        if (command == null) return;
+        Arrays.stream(Permission.values())
+                .map(Permission::getPermission)
+                .filter(p -> command.getName().contains(p))
+                .findAny().ifPresent(command::setPermission);
+        command.setExecutor(tabExecutor);
     }
 
     @Override
     public void loadAll() throws Exception {
         super.loadAll();
         this.emojiGroupsManager = new EmojiGroupsManager(getConfig().getConfigurationSection("emojis"));
+        this.guiManager = new GUIManager();
         Bukkit.getPluginManager().registerEvents(new PlayerListener(this), this);
     }
 
@@ -106,6 +127,10 @@ public final class FulmiChat extends SimpleBearPlugin {
 
     public EmojiGroupsManager getEmojiGroupsManager() {
         return emojiGroupsManager;
+    }
+
+    public GUIManager getGuiManager() {
+        return guiManager;
     }
 
     public static String formatPlaceholders(String string, Player player) {
