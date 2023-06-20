@@ -51,6 +51,7 @@ inventory-placeholder-parsed: "&8[%player%&f's Inventory&8]"
 ender-placeholder:
   - "[ender]"
   - "[end]"
+  - "[ec]"
   - "[e]"
 ender-placeholder-parsed: "&8[%player%'s &5EnderChest&8]"
 
