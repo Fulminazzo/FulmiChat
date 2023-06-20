@@ -65,7 +65,7 @@ public class EmojiGroup {
     }
 
     public String getPermission() {
-        return String.format(Permission.GROUP_PERMISSION.getPermission(), name).toLowerCase();
+        return String.format(Permission.EMOJI.getPermission(), name).toLowerCase();
     }
 
     public String getName() {

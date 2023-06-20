@@ -10,7 +10,11 @@ public class ChatGUI {
     private final UUID uuid;
 
     public ChatGUI(Inventory inventory, UUID uuid) {
-        this.gui = new GUI(inventory);
+        this(new GUI(inventory), uuid);
+    }
+
+    public ChatGUI(GUI gui, UUID uuid) {
+        this.gui = gui;
         this.uuid = uuid;
     }
 

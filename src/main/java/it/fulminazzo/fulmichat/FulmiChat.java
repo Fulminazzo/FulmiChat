@@ -49,8 +49,8 @@ public final class FulmiChat extends SimpleBearPlugin {
         PluginCommand command = getCommand(commandName);
         if (command == null) return;
         Arrays.stream(Permission.values())
+                .filter(p -> command.getName().replace("show", "").toLowerCase().contains(p.name().toLowerCase()))
                 .map(Permission::getPermission)
-                .filter(p -> command.getName().contains(p))
                 .findAny().ifPresent(command::setPermission);
         command.setExecutor(tabExecutor);
     }

@@ -10,7 +10,10 @@ public enum Message {
     PLAYER_NOT_FOUND("player-not-found"),
     GUI_ERROR("gui-error"),
     SHOW_INVENTORY("click-to-show-inventory"),
-    SHOW_ENDER("click-to-show-ender");
+    INVENTORY_TITLE("inventory-title"),
+    EXPERIENCE_ITEM("experience-item"),
+    SHOW_ENDER("click-to-show-ender"),
+    ENDER_TITLE("ender-title");
 
     private final String path;
 

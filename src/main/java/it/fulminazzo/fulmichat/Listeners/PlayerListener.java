@@ -86,7 +86,7 @@ public class PlayerListener implements Listener {
             }
 
         // Mention
-        if (player.hasPermission(Permission.MENTION_PERMISSION.getPermission())) message = parseMention(message, player);
+        if (player.hasPermission(Permission.MENTION.getPermission())) message = parseMention(message, player);
         if (player.hasPermission(Permission.COLORED_CHAT.getPermission())) message = StringUtils.parseMessage(message).trim();
         if (ChatColor.stripColor(message).equalsIgnoreCase("")) {
             event.setCancelled(true);
@@ -129,7 +129,7 @@ public class PlayerListener implements Listener {
 
     private String parseMention(String message, Player player) {
         for (Player p : Bukkit.getOnlinePlayers())
-            if (!p.equals(player)) {
+            if (!p.equals(player) && player.canSee(p)) {
                 String soundName = ConfigOption.PLAYER_MENTION_SOUND.getString();
                 if (soundName != null && message.contains(p.getName()))
                     Arrays.stream(Sound.values())
@@ -156,16 +156,16 @@ public class PlayerListener implements Listener {
             if (openBrackets)
                 if (c.equals("]")) {
                     openBrackets = false;
-                    if (!tmp.equals("") && player.hasPermission(Permission.ITEM_PERMISSION.getPermission()) && itemStack != null)
+                    if (!tmp.equals("") && player.hasPermission(Permission.ITEM.getPermission()) && itemStack != null)
                         tmp = parseItem(tmp, itemStack, finalMessage, message);
 
-                    if (!tmp.equals("") && player.hasPermission(Permission.INVENTORY_PERMISSION.getPermission()))
+                    if (!tmp.equals("") && player.hasPermission(Permission.INVENTORY.getPermission()))
                         tmp = parseInventory(tmp, player, finalMessage, message);
 
-                    if (!tmp.equals("") && player.hasPermission(Permission.ENDER_PERMISSION.getPermission()))
+                    if (!tmp.equals("") && player.hasPermission(Permission.ENDER.getPermission()))
                         tmp = parseEnderChest(tmp, player, finalMessage, message);
 
-                    if (!tmp.equals("") && player.hasPermission(Permission.PING_PERMISSION.getPermission()))
+                    if (!tmp.equals("") && player.hasPermission(Permission.PING.getPermission()))
                         tmp = parsePing(tmp, player, finalMessage, message);
 
                     if (!tmp.equals(""))
