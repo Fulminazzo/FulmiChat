@@ -11,15 +11,12 @@ import it.fulminazzo.graphics.Utils.GUIUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.block.Container;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class GUIManager {
     private final HashMap<ChatGUIType, List<ChatGUI>> guis;
@@ -63,7 +60,7 @@ public class GUIManager {
         GUI gui;
         try {gui = new GUI(27);}
         catch (InvalidSizeException e) {throw new RuntimeException(e);}
-        for (int i = 0; i < gui.getSize(); i++) gui.setItem(i, new Item(Material.GRAY_STAINED_GLASS_PANE, " "));
+        for (int i = 0; i < gui.getSize(); i++) gui.setItem(i, GUIUtils.getCornerItem());
         gui.setTitle(title);
         gui.setItem(gui.getSize() / 2, new Item(itemStack));
         return addGeneral(ChatGUIType.ITEM, gui);
@@ -86,8 +83,8 @@ public class GUIManager {
     }
 
     public UUID addChest(Player player) {
-        Block block = player.getTargetBlock(null, Bukkit.getServer().getViewDistance() * 16);
-        GUI gui = new GUI(((Container) block.getState()).getInventory());
+        Block block = player.getTargetBlock((Set<Material>) null, Bukkit.getServer().getViewDistance() * 16);
+        GUI gui = new GUI(((InventoryHolder) block.getState()).getInventory());
         gui.setTitle(Message.CHEST_TITLE.getMessage(false)
                 .replace("%player%", player.getDisplayName())
                 .replace("%container%", StringUtils.capitalize(block.getType().name())));

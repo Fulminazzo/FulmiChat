@@ -6,9 +6,11 @@ import it.angrybear.SimpleBearPlugin;
 import it.angrybear.Utils.NumberUtils;
 import it.angrybear.Utils.PluginsUtil;
 import it.angrybear.Utils.StringUtils;
+import it.angrybear.Utils.VersionsUtils;
 import it.fulminazzo.fulmichat.Commands.*;
 import it.fulminazzo.fulmichat.Enums.ChatPermission;
 import it.fulminazzo.fulmichat.Listeners.PlayerListener;
+import it.fulminazzo.fulmichat.Listeners.PlayerListener1_12;
 import it.fulminazzo.fulmichat.Managers.EmojiGroupsManager;
 import it.fulminazzo.fulmichat.Managers.GUIManager;
 import it.fulminazzo.graphics.Exceptions.InvalidSizeException;
@@ -59,11 +61,17 @@ public final class FulmiChat extends SimpleBearPlugin {
     }
 
     @Override
-    public void loadAll() throws Exception {
-        super.loadAll();
+    public void loadManagers() {
+        super.loadManagers();
         this.emojiGroupsManager = new EmojiGroupsManager(getConfig().getConfigurationSection("emojis"));
         this.guiManager = new GUIManager();
-        Bukkit.getPluginManager().registerEvents(new PlayerListener(this), this);
+    }
+
+    @Override
+    public void loadListeners() {
+        super.loadListeners();
+        if (VersionsUtils.is1_12()) Bukkit.getPluginManager().registerEvents(new PlayerListener1_12(this), this);
+        else Bukkit.getPluginManager().registerEvents(new PlayerListener(this), this);
     }
 
     @Override

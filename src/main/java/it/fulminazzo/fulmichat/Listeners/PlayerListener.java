@@ -1,6 +1,7 @@
 package it.fulminazzo.fulmichat.Listeners;
 
 import it.angrybear.Objects.ReflObject;
+import it.angrybear.Objects.UtilPlayer;
 import it.angrybear.Utils.HexUtils;
 import it.angrybear.Utils.StringUtils;
 import it.angrybear.Utils.TextComponentUtils;
@@ -18,40 +19,30 @@ import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
-import org.bukkit.block.Container;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-import org.bukkit.event.server.BroadcastMessageEvent;
+import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 public class PlayerListener implements Listener {
-    private final FulmiChat plugin;
+    protected final FulmiChat plugin;
 
     public PlayerListener(FulmiChat plugin) {
         this.plugin = plugin;
-    }
-
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void onBroadcast(BroadcastMessageEvent event) {
-        String message = event.getMessage();
-        if (event.isCancelled()) return;
-
-        // Emojis
-        List<EmojiGroup> emojisGroups = plugin.getEmojiGroupsManager().getEmojiGroups();
-        for (EmojiGroup emojiGroup : emojisGroups) message = emojiGroup.parseMessage(message);
-
-        event.setMessage(StringUtils.parseMessage(message));
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -211,8 +202,9 @@ public class PlayerListener implements Listener {
                     TextComponent itemComponent = TextComponentUtils.getItemComponent(itemStack);
                     itemComponent.setText(ConfigOption.ITEM_PLACEHOLDER_PARSED.getMessage()
                             .replace("%item%", itemComponent.getText()));
+                    UUID uuid = plugin.getGuiManager().addItem(player);
                     itemComponent.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,
-                                    String.format("/showitem %s", plugin.getGuiManager().addItem(player))));
+                                    String.format("/showitem %s", uuid)));
                     finalMessage.addExtra(itemComponent);
                     tmp = "";
                 } catch (Exception e) {
@@ -226,8 +218,8 @@ public class PlayerListener implements Listener {
     }
 
     private String parseChest(String tmp, Player player, TextComponent finalMessage, String message) {
-        Block block = player.getTargetBlock(null, Bukkit.getServer().getViewDistance() * 16);
-        if (!(block.getState() instanceof Container)) return tmp;
+        Block block = player.getTargetBlock((Set<Material>) null, Bukkit.getServer().getViewDistance() * 16);
+        if (!(block.getState() instanceof InventoryHolder)) return tmp;
         for (String placeholder : ConfigOption.CHEST_PLACEHOLDER.getStringList())
             if (String.format("[%s]", tmp).equalsIgnoreCase(placeholder)) {
                 try {
@@ -240,8 +232,9 @@ public class PlayerListener implements Listener {
                                         TextComponentUtils.getTextHoverEvent(Message.SHOW_CHEST.getMessage(false)
                                                 .replace("%player%", player.getDisplayName())
                                                 .replace("%container%", StringUtils.capitalize(block.getType().name())))));
+                    UUID uuid = plugin.getGuiManager().addChest(player);
                     Arrays.stream(chestComponent).peek(e -> e.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,
-                                    String.format("/showchest %s", plugin.getGuiManager().addChest(player)))))
+                                    String.format("/showchest %s", uuid))))
                             .forEach(finalMessage::addExtra);
                     tmp = "";
                 } catch (Exception e) {
@@ -265,8 +258,9 @@ public class PlayerListener implements Listener {
                                 new ReflObject<>(e).callMethod("setHoverEvent",
                                         TextComponentUtils.getTextHoverEvent(Message.SHOW_INVENTORY.getMessage(false)
                                                 .replace("%player%", player.getDisplayName()))));
+                    UUID uuid = plugin.getGuiManager().addInventory(player);
                     Arrays.stream(inventoryComponent).peek(e -> e.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,
-                                    String.format("/showinventory %s", plugin.getGuiManager().addInventory(player)))))
+                                    String.format("/showinventory %s", uuid))))
                             .forEach(finalMessage::addExtra);
                     tmp = "";
                 } catch (Exception e) {
@@ -290,8 +284,9 @@ public class PlayerListener implements Listener {
                                 new ReflObject<>(e).callMethod("setHoverEvent",
                                         TextComponentUtils.getTextHoverEvent(Message.SHOW_ENDER.getMessage(false)
                                                 .replace("%player%", player.getDisplayName()))));
+                    UUID uuid = plugin.getGuiManager().addEnderChest(player);
                     Arrays.stream(enderComponent).peek(e -> e.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,
-                            String.format("/showenderchest %s", plugin.getGuiManager().addEnderChest(player)))))
+                            String.format("/showenderchest %s", uuid))))
                             .forEach(finalMessage::addExtra);
                     tmp = "";
                 } catch (Exception e) {
@@ -305,12 +300,14 @@ public class PlayerListener implements Listener {
     }
 
     private String parsePing(String tmp, Player player, TextComponent finalMessage, String message) {
+        int playerPing = new UtilPlayer(player).getPing();
         for (String placeholder : ConfigOption.PING_PLACEHOLDER.getStringList())
             if (String.format("[%s]", tmp).equalsIgnoreCase(placeholder)) {
                 try {
                     Arrays.stream(TextComponent.fromLegacyText(ConfigOption.PING_PLACEHOLDER_PARSED.getMessage()
                             .replace("%player%", player.getDisplayName())
-                            .replace("%ping%", String.valueOf(player.getPing())))).forEach(finalMessage::addExtra);
+                            .replace("%ping%", String.valueOf(playerPing))))
+                            .forEach(finalMessage::addExtra);
                     tmp = "";
                 } catch (Exception e) {
                     FulmiChat.logWarning(LoggingMessage.GENERAL_ERROR_OCCURRED,
