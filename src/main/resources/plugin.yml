@@ -15,9 +15,15 @@ commands:
     description: A command to display all available emojis
     #permission: fulmichat.emoji
     aliases: [emojis]
+  showitem:
+    description: A command to display the item of a player.
+    #permission: fulmichat.item
   showinventory:
     description: A command to display the inventory of a player.
     #permission: fulmichat.inventory
   showenderchest:
     description: A command to display the enderchest of a player.
     #permission: fulmichat.ender
+  showchest:
+    description: A command to display the chest of a player.
+    #permission: fulmichat.chest

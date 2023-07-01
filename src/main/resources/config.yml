@@ -56,6 +56,14 @@ ender-placeholder:
 ender-placeholder-parsed: "&8[%player%'s &5EnderChest&8]"
 
 # The placeholder to be used in chat in order
+# to display the chest you are looking at.
+chest-placeholder:
+  - "[chest]"
+  - "[ch]"
+  - "[c]"
+chest-placeholder-parsed: "&8[%player%'s &7%container%&8]"
+
+# The placeholder to be used in chat in order
 # to display your current ping.
 ping-placeholder:
   - "[ping]"

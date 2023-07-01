@@ -3,23 +3,18 @@ package it.fulminazzo.fulmichat.Objects;
 import it.fulminazzo.fulmichat.FulmiChat;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.entity.Player;
 
 public class ChatMessage {
-    private ComponentBuilder message;
+    private BaseComponent[] message;
     private TextComponent check;
 
     public ChatMessage(String message, Player player) {
-        this(new ComponentBuilder(message), player);
+        this(new TextComponent(message), player);
     }
 
     public ChatMessage(TextComponent message, Player player) {
-        this(new ComponentBuilder(message), player);
-    }
-
-    public ChatMessage(ComponentBuilder message, Player player) {
         setMessage(message);
         TextComponent check = null;
         String moderationCheck = FulmiChat.getPlugin().getModerationCheck();
@@ -27,30 +22,28 @@ public class ChatMessage {
         setCheck(check, player);
     }
 
-    public BaseComponent[] getUserMessage() {
-        return message == null ? new BaseComponent[0] : message.create();
+    public TextComponent getUserMessage() {
+        return message == null ? new TextComponent() : new TextComponent(message);
     }
 
-    public BaseComponent[] getModMessage() {
-        if (message == null || check == null) return getUserMessage();
-        else return new ComponentBuilder(message)
-                .append(" ", ComponentBuilder.FormatRetention.NONE)
-                .append(check, ComponentBuilder.FormatRetention.NONE).create();
+    public TextComponent getModMessage() {
+        TextComponent modComponent = getUserMessage();
+        if (check != null) {
+            modComponent.addExtra(" ");
+            modComponent.addExtra(check);
+        }
+        return modComponent;
     }
 
     public void setMessage(String message) {
-        this.message = new ComponentBuilder(message);
+        this.message = TextComponent.fromLegacyText(message);
     }
 
-    public void setMessage(BaseComponent message) {
-        this.message = new ComponentBuilder(message);
+    public void setMessage(TextComponent message) {
+        this.message = new BaseComponent[]{new TextComponent(message)};
     }
 
-    public void setMessage(ComponentBuilder message) {
-        this.message = message;
-    }
-
-    public ComponentBuilder getMessage() {
+    public BaseComponent[] getMessage() {
         return message;
     }
 

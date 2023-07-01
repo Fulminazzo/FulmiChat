@@ -6,11 +6,8 @@ import it.angrybear.SimpleBearPlugin;
 import it.angrybear.Utils.NumberUtils;
 import it.angrybear.Utils.PluginsUtil;
 import it.angrybear.Utils.StringUtils;
-import it.fulminazzo.fulmichat.Commands.EmojiCommand;
-import it.fulminazzo.fulmichat.Commands.ModCommand;
-import it.fulminazzo.fulmichat.Commands.ShowEnderChest;
-import it.fulminazzo.fulmichat.Commands.ShowInventory;
-import it.fulminazzo.fulmichat.Enums.Permission;
+import it.fulminazzo.fulmichat.Commands.*;
+import it.fulminazzo.fulmichat.Enums.ChatPermission;
 import it.fulminazzo.fulmichat.Listeners.PlayerListener;
 import it.fulminazzo.fulmichat.Managers.EmojiGroupsManager;
 import it.fulminazzo.fulmichat.Managers.GUIManager;
@@ -38,19 +35,25 @@ public final class FulmiChat extends SimpleBearPlugin {
     @Override
     public void onEnable() {
         plugin = this;
+        removeReloadSupport();
+        setPermissionsClass(ChatPermission.class);
         super.onEnable();
-        setExecutor("moderate", new ModCommand(this));
-        setExecutor("emoji", new EmojiCommand(this));
-        setExecutor("showinventory", new ShowInventory(this));
-        setExecutor("showenderchest", new ShowEnderChest(this));
+        if (isEnabled()) {
+            setExecutor("moderate", new ModCommand(this));
+            setExecutor("emoji", new EmojiCommand(this));
+            setExecutor("showitem", new ShowItem(this));
+            setExecutor("showinventory", new ShowInventory(this));
+            setExecutor("showenderchest", new ShowEnderChest(this));
+            setExecutor("showchest", new ShowChest(this));
+        }
     }
 
     private void setExecutor(String commandName, TabExecutor tabExecutor) {
         PluginCommand command = getCommand(commandName);
         if (command == null) return;
-        Arrays.stream(Permission.values())
+        Arrays.stream(ChatPermission.values())
                 .filter(p -> command.getName().replace("show", "").toLowerCase().contains(p.name().toLowerCase()))
-                .map(Permission::getPermission)
+                .map(ChatPermission::getPermission)
                 .findAny().ifPresent(command::setPermission);
         command.setExecutor(tabExecutor);
     }
@@ -67,6 +70,12 @@ public final class FulmiChat extends SimpleBearPlugin {
     public void loadConfig() throws Exception {
         loadGeneral("config.yml", false);
         reloadConfig();
+    }
+
+    @Override
+    public void unloadAll() throws Exception {
+        super.unloadAll();
+        unloadPermissions(this);
     }
 
     public GUI getModerationGUI(Player issuer, Player target) {

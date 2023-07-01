@@ -1,5 +1,5 @@
 package it.fulminazzo.fulmichat.Enums;
 
 public enum ChatGUIType {
-    ENDER_CHEST, INVENTORY
+    ENDER_CHEST, ITEM, INVENTORY, CHEST
 }

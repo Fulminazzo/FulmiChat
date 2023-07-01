@@ -1,7 +1,7 @@
 package it.fulminazzo.fulmichat.Objects;
 
 import it.fulminazzo.fulmichat.Enums.LoggingMessage;
-import it.fulminazzo.fulmichat.Enums.Permission;
+import it.fulminazzo.fulmichat.Enums.ChatPermission;
 import it.fulminazzo.fulmichat.Exceptions.NotEmojiGroup;
 import it.fulminazzo.fulmichat.Exceptions.UnrecognizedEmoji;
 import it.fulminazzo.fulmichat.FulmiChat;
@@ -65,7 +65,7 @@ public class EmojiGroup {
     }
 
     public String getPermission() {
-        return String.format(Permission.EMOJI.getPermission(), name).toLowerCase();
+        return String.format(ChatPermission.EMOJI.getPermission(), name).toLowerCase();
     }
 
     public String getName() {
