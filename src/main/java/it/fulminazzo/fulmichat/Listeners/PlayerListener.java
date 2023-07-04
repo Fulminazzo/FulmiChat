@@ -1,5 +1,7 @@
 package it.fulminazzo.fulmichat.Listeners;
 
+import it.angrybear.Bukkit.Utils.BukkitTextComponentUtils;
+import it.angrybear.Exceptions.ExpectedPlayerException;
 import it.angrybear.Objects.ReflObject;
 import it.angrybear.Objects.UtilPlayer;
 import it.angrybear.Utils.HexUtils;
@@ -107,7 +109,7 @@ public class PlayerListener implements Listener {
         for (Player p : event.getRecipients())
             if (p.hasPermission(ChatPermission.MOD.getPermission())) p.spigot().sendMessage(chatMessage.getModMessage());
             else p.spigot().sendMessage(chatMessage.getUserMessage());
-        Bukkit.getConsoleSender().sendMessage(TextComponentUtils.baseComponentsToString(chatMessage.getMessage()));
+        Bukkit.getConsoleSender().sendMessage(TextComponent.toLegacyText(chatMessage.getMessage()));
     }
 
     private TextComponent formatMessageToTextComponent(AsyncPlayerChatEvent event, TextComponent textComponent) {
@@ -199,7 +201,7 @@ public class PlayerListener implements Listener {
         for (String placeholder : ConfigOption.ITEM_PLACEHOLDER.getStringList())
             if (String.format("[%s]", tmp).equalsIgnoreCase(placeholder)) {
                 try {
-                    TextComponent itemComponent = TextComponentUtils.getItemComponent(itemStack);
+                    TextComponent itemComponent = BukkitTextComponentUtils.getItemComponent(itemStack);
                     itemComponent.setText(ConfigOption.ITEM_PLACEHOLDER_PARSED.getMessage()
                             .replace("%item%", itemComponent.getText()));
                     UUID uuid = plugin.getGuiManager().addItem(player);
@@ -300,7 +302,12 @@ public class PlayerListener implements Listener {
     }
 
     private String parsePing(String tmp, Player player, TextComponent finalMessage, String message) {
-        int playerPing = new UtilPlayer(player).getPing();
+        int playerPing = 0;
+        try {
+            playerPing = new UtilPlayer(player).getPing();
+        } catch (ExpectedPlayerException e) {
+            e.printStackTrace();
+        }
         for (String placeholder : ConfigOption.PING_PLACEHOLDER.getStringList())
             if (String.format("[%s]", tmp).equalsIgnoreCase(placeholder)) {
                 try {

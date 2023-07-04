@@ -1,10 +1,11 @@
 package it.fulminazzo.fulmichat;
 
+import it.angrybear.Bukkit.Objects.YamlElements.ItemStackYamlObject;
+import it.angrybear.Bukkit.SimpleBearPlugin;
+import it.angrybear.Bukkit.Utils.BukkitUtils;
+import it.angrybear.Objects.Configurations.Configuration;
 import it.angrybear.Objects.ReflObject;
-import it.angrybear.Objects.YamlElements.ItemStackYamlObject;
-import it.angrybear.SimpleBearPlugin;
 import it.angrybear.Utils.NumberUtils;
-import it.angrybear.Utils.PluginsUtil;
 import it.angrybear.Utils.StringUtils;
 import it.angrybear.Utils.VersionsUtils;
 import it.fulminazzo.fulmichat.Commands.*;
@@ -101,7 +102,7 @@ public final class FulmiChat extends SimpleBearPlugin {
             try {
                 ConfigurationSection itemSection = itemsSection.getConfigurationSection(key);
                 if (itemSection == null) continue;
-                Item item = new Item(new ItemStackYamlObject().load(itemsSection, key));
+                Item item = new Item(new ItemStackYamlObject().load(new Configuration(itemsSection), key));
                 item.setDisplayName(formatString(item.getDisplayName(), issuer, target));
                 List<String> lore = item.getLore();
                 if (lore != null) lore = lore.stream()
@@ -151,7 +152,7 @@ public final class FulmiChat extends SimpleBearPlugin {
     }
 
     public static String formatPlaceholders(String string, Player player) {
-        if (PluginsUtil.isPluginEnabled("PlaceholderAPI")) {
+        if (BukkitUtils.isPluginEnabled("PlaceholderAPI")) {
             ReflObject<?> placeholderAPI = new ReflObject<>("me.clip.placeholderapi.PlaceholderAPI", false);
             string = placeholderAPI.getMethodObject("setPlaceholders", player, string);
             string = placeholderAPI.getMethodObject("setBracketPlaceholders", player, string);
