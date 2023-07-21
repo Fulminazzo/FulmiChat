@@ -20,6 +20,7 @@ import it.fulminazzo.graphics.Objects.Items.AbstractClasses.GUIElement;
 import it.fulminazzo.graphics.Objects.Items.CommandItem;
 import it.fulminazzo.graphics.Objects.Items.Item;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.configuration.ConfigurationSection;
@@ -38,8 +39,6 @@ public final class FulmiChat extends SimpleBearPlugin {
     @Override
     public void onEnable() {
         plugin = this;
-        removeReloadSupport();
-        setPermissionsClass(ChatPermission.class);
         super.onEnable();
         if (isEnabled()) {
             setExecutor("moderate", new ModCommand(this));
@@ -98,7 +97,7 @@ public final class FulmiChat extends SimpleBearPlugin {
         for (String key : itemsSection.getKeys(false)) {
             if (!NumberUtils.isNatural(key)) continue;
             int slot = Integer.parseInt(key);
-            while (contents.size() <= slot) contents.add(null);
+            while (contents.size() <= slot) contents.add(new Item(Material.AIR));
             try {
                 ConfigurationSection itemSection = itemsSection.getConfigurationSection(key);
                 if (itemSection == null) continue;
@@ -121,7 +120,7 @@ public final class FulmiChat extends SimpleBearPlugin {
             }
         }
         try {
-            GUI moderationGUI = new GUI((Math.max(contents.size() / 9, 1)) * 9, title);
+            GUI moderationGUI = new GUI((int) ((Math.max(Math.ceil((double) contents.size() / 9), 1)) * 9), title);
             moderationGUI.fill(contents);
             return moderationGUI;
         } catch (InvalidSizeException e) {

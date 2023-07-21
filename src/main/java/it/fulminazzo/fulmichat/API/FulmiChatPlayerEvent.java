@@ -13,8 +13,8 @@ public class FulmiChatPlayerEvent extends Event {
     private final Set<Player> players;
     private ChatMessage chatMessage;
 
-    public FulmiChatPlayerEvent(Player player, Set<Player> players, ChatMessage chatMessage) {
-        super(true);
+    public FulmiChatPlayerEvent(boolean async, Player player, Set<Player> players, ChatMessage chatMessage) {
+        super(async);
         this.player = player;
         this.players = players;
         this.chatMessage = chatMessage;

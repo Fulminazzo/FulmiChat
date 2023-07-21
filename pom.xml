@@ -6,7 +6,7 @@
 
     <groupId>it.fulminazzo</groupId>
     <artifactId>EverCiat</artifactId>
-    <version>2.1</version>
+    <version>2.2</version>
     <packaging>jar</packaging>
 
     <description>FulmiChat is a plugin that adds mentions, emojis and items in chat.</description>
@@ -74,7 +74,7 @@
         <dependency>
             <groupId>it.fulminazzo</groupId>
             <artifactId>Graphics</artifactId>
-            <version>1.1</version>
+            <version>2.0</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

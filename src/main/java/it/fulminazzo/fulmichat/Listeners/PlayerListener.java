@@ -37,7 +37,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
-import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 
 public class PlayerListener implements Listener {
@@ -97,7 +97,7 @@ public class PlayerListener implements Listener {
         // Moderation
         event.setCancelled(true);
         ChatMessage chatMessage = new ChatMessage(finalMessage, event.getPlayer());
-        FulmiChatPlayerEvent fulmiChatPlayerEvent = new FulmiChatPlayerEvent(player, event.getRecipients(), chatMessage);
+        FulmiChatPlayerEvent fulmiChatPlayerEvent = new FulmiChatPlayerEvent(event.isAsynchronous(), player, event.getRecipients(), chatMessage);
         Bukkit.getPluginManager().callEvent(fulmiChatPlayerEvent);
         chatMessage = fulmiChatPlayerEvent.getChatMessage();
 
@@ -165,8 +165,10 @@ public class PlayerListener implements Listener {
                     if (!tmp.equals("") && player.hasPermission(ChatPermission.CHEST.getPermission())) {
                         String finalTmp = tmp;
                         try {
-                            tmp = Bukkit.getScheduler().callSyncMethod(plugin, () -> parseChest(finalTmp, player, finalMessage, message)).get();
-                        } catch (InterruptedException | ExecutionException e) {
+                            Callable<String> runnable = () -> parseChest(finalTmp, player, finalMessage, message);
+                            if (event.isAsynchronous()) tmp = Bukkit.getScheduler().callSyncMethod(plugin, runnable).get();
+                            else tmp = runnable.call();
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }

@@ -1,12 +1,13 @@
 package it.fulminazzo.fulmichat.Commands;
 
+import it.angrybear.Bukkit.Commands.BearCommandExecutor;
+import it.fulminazzo.fulmichat.Enums.ChatPermission;
 import it.fulminazzo.fulmichat.Enums.Message;
 import it.fulminazzo.fulmichat.FulmiChat;
 import it.fulminazzo.graphics.Objects.GUI;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 
@@ -14,11 +15,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ModCommand implements TabExecutor {
-    private final FulmiChat plugin;
+public class ModCommand extends BearCommandExecutor<FulmiChat> {
 
     public ModCommand(FulmiChat plugin) {
-        this.plugin = plugin;
+        super(plugin, "mod", ChatPermission.MOD);
     }
 
     @Override

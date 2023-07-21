@@ -2,6 +2,10 @@ package it.fulminazzo.fulmichat.Enums;
 
 import it.angrybear.Enums.BearPermission;
 import it.fulminazzo.fulmichat.FulmiChat;
+import it.fulminazzo.reflectionutils.Objects.ReflObject;
+
+import java.util.Arrays;
+import java.util.Objects;
 
 public class ChatPermission extends BearPermission {
     public static final ChatPermission EMOJI = new ChatPermission("emoji.%s");
@@ -24,6 +28,13 @@ public class ChatPermission extends BearPermission {
     }
 
     public static ChatPermission[] values() {
-        return values(ChatPermission.class);
+        Class<ChatPermission> enumClass = ChatPermission.class;
+        return Arrays.stream(enumClass.getDeclaredFields())
+                .filter(f -> f.getType().equals(enumClass))
+                .map(f -> new ReflObject<>(enumClass.getCanonicalName(), false).obtainField(f.getName()))
+                .map(ReflObject::getObject)
+                .filter(Objects::nonNull)
+                .map(o -> (ChatPermission) o)
+                .toArray(ChatPermission[]::new);
     }
 }
