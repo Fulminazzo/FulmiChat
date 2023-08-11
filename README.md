@@ -94,7 +94,7 @@ Also, except from _ping-placeholder_, every other is clickable and will open up 
 ### PlayerMention
 When typing the name of a player in a certain format (specified in <i>player-mention</i>), this will be replaced with the format in <i>player-mention-parsed</i>.
 This can only happen if the player has the permission <b>fulmichat.mention</b>.
-Also, the specified player will receive a sound (see <i>player-mention-sound</i>), for a full list check https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Sound.html.
+Also, the specified player will receive a sound (see <i>player-mention-sound</i>), for a full list check [Bukkit Sound](https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Sound.html).
 <br><b>NOTE:</b> in previous versions of Minecraft sound worked differently. If you receive an error after setting the sound, try looking for "Minecraft %version% Spigot Sound" on Google.
 
 ### Emojis
