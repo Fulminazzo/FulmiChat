@@ -20,9 +20,8 @@ public class EmojiGroupsManager {
         this.emojiGroups = new ArrayList<>();
         YamlConfiguration tmp = new YamlConfiguration();
         tmp.createSection("default");
-        try {
-            this.emojiGroups.add(new EmojiGroup(tmp.getConfigurationSection("default")));
-        } catch (NotEmojiGroup ignored) {}
+        try {this.emojiGroups.add(new EmojiGroup(tmp.getConfigurationSection("default")));}
+        catch (NotEmojiGroup ignored) {}
 
         if (emojisSection == null) return;
         emojisSection.getKeys(false).stream()
