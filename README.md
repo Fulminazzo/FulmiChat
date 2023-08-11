@@ -9,12 +9,12 @@ FulmiChat is a simple chat plugin that allows some functionalities with given pe
 ## Config
 The configuration file is divided into four sections:
 
-| Config Contents                     |
-|-------------------------------------|
-| [ModerationGUI](#ModerationGUI)     |
-| [ItemPlaceholder](#ItemPlaceholder) |
-| [PlayerMention](#PlayerMention)     |
-| [Emojis](#Emojis)                   |
+| Config Contents                 |
+|---------------------------------|
+| [ModerationGUI](#ModerationGUI) |
+| [Placeholders](#Placeholders)   |
+| [PlayerMention](#PlayerMention) |
+| [Emojis](#Emojis)               |
 
 ### ModerationGUI
 A GUI to moderate a given player.
@@ -74,10 +74,22 @@ moderation-gui:
       action: "close"
 ```
 
-### ItemPlaceholder
-A placeholder to be replaced with the item currently hold by the player.
-The placeholder can be any of the list value specified in the config.yml.
-This can only happen if the player has the permission <b>fulmichat.item</b>.
+### Placeholders
+The plugin offers various placeholders to be replaced with certain elements. Here is a list with all the available ones:
+- _item-placeholder_: replaces with the current held item in hand;
+- _inventory-placeholder_: replaces with the inventory of the player;
+- _ender-placeholder_: replaces with the enderchest of the player;
+- _chest-placeholder_: replaces with the container the player is looking at (for example a chest, a dispenser or a shulkerbox);
+- _ping-placeholder_: replaces with the player's current ping;
+You can specify every placeholder and replacement in the config.yml, for example:
+```yaml
+item-placeholder:
+    - "[item]"
+    - "[i]"
+item-placeholder-parsed: "&8[%item%&8]"
+```
+means that ```[item]``` and ```[i]``` typed in chat will be replaced with the item held by the player in the format of ```&8[<The item>&8]```.
+Also, except from _ping-placeholder_, every other is clickable and will open up a GUI with specific items. If the item is a shulkerbox, the player can view its contents by clicking on it.
 
 ### PlayerMention
 When typing the name of a player in a certain format (specified in <i>player-mention</i>), this will be replaced with the format in <i>player-mention-parsed</i>.
@@ -114,7 +126,7 @@ The plugin looks for an emoticon in the player's message and replaces it with on
 <br>Finally, even if it is not advised, the plugin provides a color chat permission: <b>fulmichat.colored-chat</b>.
 
 ## API
-Since to work, FulmiChat replaces every chat message with a ComponentBuilder, the [AsyncPlayerChatEvent](#https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/event/player/AsyncPlayerChatEvent.html) will not be available to developers anymore.
+Since to work, FulmiChat replaces every chat message with a ComponentBuilder, the [AsyncPlayerChatEvent](https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/event/player/AsyncPlayerChatEvent.html) will not be available to developers anymore.
 Instead, it is given a FulmiChatPlayerEvent to handle this situations. Here's an example:
 
 ```java
